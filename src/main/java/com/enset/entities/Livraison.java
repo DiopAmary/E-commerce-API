@@ -14,13 +14,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//@Entity
 @Entity
 @Table
 @Data
 @NoArgsConstructor 
 @AllArgsConstructor
 public class Livraison {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -36,5 +37,6 @@ public class Livraison {
 	@ManyToOne
 	@JoinColumn(name = "livreur_id", nullable = true)
 	private Livreur livreur=null;
+	
 
 }
