@@ -1,8 +1,13 @@
 package com.enset.services.impl;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,7 +16,9 @@ import org.springframework.stereotype.Service;
 
 import com.enset.dto.AddressDto;
 import com.enset.dto.UserDto;
+import com.enset.entities.RoleEntity;
 import com.enset.entities.UserEntity;
+import com.enset.repositories.RoleRepository;
 import com.enset.repositories.UserRepository;
 import com.enset.services.UserService;
 import com.enset.utils.Utils;
@@ -22,6 +29,9 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	RoleRepository roleRepository;
 
 	@Autowired
 	Utils util;
@@ -30,13 +40,14 @@ public class UserServiceImpl implements UserService{
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
-	public UserDto createUser(UserDto user) {
+	public UserDto createUser(UserDto user, String role) {
 
 		UserEntity checkUser = userRepository.findByEmail(user.getEmail());
+		RoleEntity roleType = roleRepository.findByLibelle(role);
 		
 		if (checkUser != null)
 			throw new RuntimeException("User Already exists !");
-
+		
 		if(user.getAddresses()!=null) {	
 		
 			for (int i = 0; i < user.getAddresses().size(); i++) {
@@ -46,9 +57,9 @@ public class UserServiceImpl implements UserService{
 				//user.getAddresses().set(i, addressDto);
 			}
 		}
-		System.out.println("addresse user ****");
 		ModelMapper modelMapper = new ModelMapper();
 		UserEntity userEntity = modelMapper.map(user, UserEntity.class);		
+		userEntity.setRole(roleType);
 		userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userEntity.setUserId(util.generateStringId(32));
 		
@@ -111,5 +122,27 @@ public class UserServiceImpl implements UserService{
 			throw new UsernameNotFoundException(userId);
 		userRepository.delete(userEntity);
 		System.out.println("user deleted successfully !!");
-	}	
+	}
+	
+	@Override
+	public List<UserDto> getUsers(int page, int limit,String search, int status) {
+		if (page > 0)
+			page -= 1;
+		
+		List<UserDto> userDtos = new ArrayList<UserDto>();
+		Pageable pageableRequest = PageRequest.of(page, limit);
+		
+		Page<UserEntity> users;
+		if(search.isEmpty()) {
+			users = userRepository.findAllUser(pageableRequest);
+		}else {
+			users = userRepository.findAllUserByCriteria(pageableRequest, search,status);
+		}
+		ModelMapper modelMapper  =new ModelMapper();
+		for (UserEntity userEntity : users) {
+			UserDto user =modelMapper.map(userEntity, UserDto.class);
+			userDtos.add(user);
+		}
+		return userDtos;
+	}
 }

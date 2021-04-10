@@ -13,4 +13,11 @@ import com.enset.entities.UserEntity;
 public interface UserRepository extends PagingAndSortingRepository<UserEntity, Long> {
 	public UserEntity findByEmail(String email);
 	public UserEntity findByUserId(String userId);
+	
+	@Query(value = "select * from users",nativeQuery=true)
+	public Page<UserEntity> findAllUser(Pageable pageableRequest);
+	
+	@Query(value = "select * from users u where (u.first_name LIKE %:search% or u.last_name LIKE %:search%) AND u.email_verification_status=:status",nativeQuery=true)
+	public Page<UserEntity> findAllUserByCriteria(Pageable pageableRequest,@Param("search") String search,@Param("status") int status);
+
 }

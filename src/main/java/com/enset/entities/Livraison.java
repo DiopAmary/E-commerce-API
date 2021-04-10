@@ -12,21 +12,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table
-@Data
-@NoArgsConstructor 
-@AllArgsConstructor
-public class Livraison {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
-	String codeLvr;
-	Date dateLvr;
-	double fraisLvr;
-	String methodeLvr;
-	Livreur livreur;
-	
-
-}
+//@Entity
+//@Table
+//@Data
+//@NoArgsConstructor 
+//@AllArgsConstructor
+//public class Livraison {
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	Long id;
+//	String codeLvr;
+//	Date dateLvr;
+//	double fraisLvr;
+//	String methodeLvr;
+//	Livreur livreur;
+//}

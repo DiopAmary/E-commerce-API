@@ -32,7 +32,16 @@ public class UserRequest {
 			 message = "ce mot de passe doit avoir des lettres en maj et minisc et numero")
 	private String password;
 	
+	private String numTel;
+	
+	private String sexUser;
+	
+	private boolean status=true;
+	
+	private String userName;
+	
 	private boolean admin;	
 	
 	private List<AddressRequest> addresses;
+	private RoleRequest role;
 }
