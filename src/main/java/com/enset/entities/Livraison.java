@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -22,11 +24,18 @@ public class Livraison {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
+	
 	String codeLvr;
+	
 	Date dateLvr;
+	
 	double fraisLvr;
+	
 	String methodeLvr;
-	Livreur livreur;
+	
+	@ManyToOne
+	@JoinColumn(name = "livreur_id", nullable = true)
+	private Livreur livreur=null;
 	
 
 }

@@ -1,7 +1,12 @@
 package com.enset.entities;
 
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -16,5 +21,8 @@ import lombok.NoArgsConstructor;
 public class Livreur{
 
 	String codeLivreur;
+	
+	@OneToMany(mappedBy = "livreur",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Livraison> livraisons;
 	
 }
