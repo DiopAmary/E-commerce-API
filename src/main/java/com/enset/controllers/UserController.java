@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,17 +63,19 @@ public class UserController {
 		return new ResponseEntity<List<UserResponse>>(userResponse, HttpStatus.OK);
 	}
 	
+	//@RequestParam(name = "photo", required = false)
 	@PostMapping(
 				path = "/add",
 				consumes = { MediaType.APPLICATION_JSON_VALUE, "multipart/form-data" }, 
 				produces = { MediaType.APPLICATION_JSON_VALUE }
 				)
-	public @ResponseBody ResponseEntity<UserResponse> createUser(
-			@ModelAttribute @Valid UserRequest userRequest,
-			@RequestParam(name = "roleName", defaultValue = "USER") String role,
-			@RequestParam("photo") MultipartFile photo
+	@ResponseBody
+	public ResponseEntity<UserResponse> createUser(
+			@Valid UserRequest userRequest,
+			@RequestPart(name = "photo", required = false) MultipartFile photo,
+			@RequestParam(name = "roleName", defaultValue = "USER") String role
 			) throws Exception {
-
+		
 		if (userRequest.getUserName().isEmpty())
 			throw new UserException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 		ModelMapper modelMapper = new ModelMapper();
@@ -80,6 +83,8 @@ public class UserController {
 		UserDto createUser = userService.createUser(userDto, role, photo);
 		return new ResponseEntity<>( modelMapper.map(createUser, UserResponse.class), HttpStatus.CREATED );
 	}
+	
+	
 
 	
 	@PutMapping(
@@ -97,7 +102,7 @@ public class UserController {
 	public @ResponseBody ResponseEntity<UserResponse> updateUser(
 			@PathVariable String id,
 			@Valid UserRequest userRequest,
-			@RequestParam MultipartFile photo,
+			@RequestParam(name = "photo", required = false) MultipartFile photo,
 			@RequestParam(name = "roleName",defaultValue = "USER") String role
 			) {
 		ModelMapper modelMapper = new ModelMapper();
