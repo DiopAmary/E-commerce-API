@@ -14,22 +14,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//@Entity
-//@Table
-//@Data
-//@NoArgsConstructor 
-//@AllArgsConstructor	
-//public class Commande {
-//
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	Long id; 
-//	String codeCmd;
-//	double totalCmd;
-//	String etatCmd;
-//	@DateTimeFormat(pattern = "yyyy-MM-dd")
-//	Date dateCmd;
-//	String methodePaiment;
-//	int CommentaireCmd;
-//	
-//}
+@Entity
+@Table
+@Data
+@NoArgsConstructor 
+@AllArgsConstructor	
+public class Commande {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long id; 
+	String codeCmd;
+	double totalCmd;
+	String etatCmd;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	Date dateCmd;
+	String methodePaiment;
+	int CommentaireCmd;
+	
+}

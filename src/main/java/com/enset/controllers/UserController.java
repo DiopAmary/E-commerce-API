@@ -33,7 +33,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-
 	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<UserResponse> getUser(@PathVariable String id){
 		UserDto userDto = userService.getUserByUserId(id);
