@@ -25,11 +25,11 @@ public class UserRequest {
 	@Email(message = "ce champ doit respecter le format email")
 	private String email;
 	
-	@NotNull(message = "ce champ ne doit pas etre null")
-	@Size(min = 8, message = "mot de passe doit avoir au moins 8 caracteres !")
-	@Size(min = 12, message = "mot de passe doit avoir au max 12 caracteres !")
-	@Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", 
-			 message = "ce mot de passe doit avoir des lettres en maj et minisc et numero")
+//	@NotNull(message = "ce champ ne doit pas etre null")
+//	@Size(min = 8, message = "mot de passe doit avoir au moins 8 caracteres !")
+//	@Size(max = 12, message = "mot de passe doit avoir au max 12 caracteres !")
+//	@Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$", 
+//			 message = "ce mot de passe doit avoir des lettres en maj et minisc et numero")
 	private String password;
 	
 	private String numTel;
@@ -40,8 +40,10 @@ public class UserRequest {
 	
 	private String userName;
 	
-	private boolean admin;	
-	
-	private List<AddressRequest> addresses;
+	private boolean admin;
+
 	private RoleRequest role;
+		
+	private List<AddressRequest> addresses;
+	
 }
