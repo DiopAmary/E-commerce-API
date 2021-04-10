@@ -31,7 +31,7 @@ import lombok.ToString;
 public class UserEntity implements Serializable{
 
 	private static final long serialVersionUID = -5763827745308343856L;
-
+	
 	@Id //auto increment
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -95,6 +95,7 @@ public class UserEntity implements Serializable{
 	@PrePersist
 	public void setCreatedAt() {
 		this.createdAt= new Date();
+		this.updatedAt = new Date();
 	}
 	
 	@PreUpdate

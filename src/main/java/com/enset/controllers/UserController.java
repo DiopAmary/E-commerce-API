@@ -12,13 +12,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.enset.dto.UserDto;
 import com.enset.exceptions.UserException;
 import com.enset.requests.UserRequest;
@@ -27,12 +31,12 @@ import com.enset.responses.UserResponse;
 import com.enset.services.UserService;
 
 @RestController
-@RequestMapping("/user") // localhost:8081/user
+@RequestMapping("/user")
 public class UserController {
 
 	@Autowired
 	UserService userService;
-	
+
 	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<UserResponse> getUser(@PathVariable String id){
 		UserDto userDto = userService.getUserByUserId(id);
@@ -48,57 +52,59 @@ public class UserController {
 										  @RequestParam(value = "search",defaultValue = "") String search,
 										  @RequestParam(value = "status",defaultValue = "1") int status							  
 			){
-		
 		List<UserResponse> userResponse = new ArrayList<>();
-		
 		List<UserDto> users = userService.getUsers(page,limit,search,status);
-		
 		for(UserDto userDto:users) {
 			ModelMapper modelMapper = new ModelMapper();
 			UserResponse user = modelMapper.map(userDto, UserResponse.class);;
 			userResponse.add(user);
 		}
-		
-		System.out.println("all users with pagination => " + userResponse);
-		
 		return new ResponseEntity<List<UserResponse>>(userResponse, HttpStatus.OK);
 	}
 	
-	
-
 	@PostMapping(
-				consumes = { MediaType.APPLICATION_JSON_VALUE }, 
+				path = "/add",
+				consumes = { MediaType.APPLICATION_JSON_VALUE, "multipart/form-data" }, 
 				produces = { MediaType.APPLICATION_JSON_VALUE }
 				)
-	public ResponseEntity<UserResponse> createUser(
-			@RequestBody @Valid UserRequest userRequest,
-			@RequestParam(name = "role", defaultValue = "USER") String role
+	public @ResponseBody ResponseEntity<UserResponse> createUser(
+			@ModelAttribute @Valid UserRequest userRequest,
+			@RequestParam(name = "roleName", defaultValue = "USER") String role,
+			@RequestParam("photo") MultipartFile photo
 			) throws Exception {
-		
-		if (userRequest.getFirstName().isEmpty())
-			throw new UserException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
-		
-		
-		ModelMapper modelMapper = new ModelMapper();
-		
-		UserDto userDto = modelMapper.map(userRequest, UserDto.class);
-		
-		UserDto createUser = userService.createUser(userDto, role);
 
+		if (userRequest.getUserName().isEmpty())
+			throw new UserException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+		ModelMapper modelMapper = new ModelMapper();
+		UserDto userDto = modelMapper.map(userRequest, UserDto.class);
+		UserDto createUser = userService.createUser(userDto, role, photo);
 		return new ResponseEntity<>( modelMapper.map(createUser, UserResponse.class), HttpStatus.CREATED );
-		
 	}
 
-	@PutMapping(path = "/{id}", consumes = { MediaType.APPLICATION_XML_VALUE,
-			MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_XML_VALUE,
-					MediaType.APPLICATION_JSON_VALUE }) // update user
-	public ResponseEntity<UserResponse> updateUser(@PathVariable String id, @RequestBody UserRequest userRequest) {
-		
+	
+	@PutMapping(
+			path = "/update/{id}", 
+			consumes = { 
+						MediaType.APPLICATION_XML_VALUE,
+						MediaType.APPLICATION_JSON_VALUE,
+						MediaType.MULTIPART_FORM_DATA_VALUE
+						}, 
+			produces = { 
+						MediaType.APPLICATION_XML_VALUE,
+						MediaType.APPLICATION_JSON_VALUE 
+						}
+			) // update user
+	public @ResponseBody ResponseEntity<UserResponse> updateUser(
+			@PathVariable String id,
+			@Valid UserRequest userRequest,
+			@RequestParam MultipartFile photo,
+			@RequestParam(name = "roleName",defaultValue = "USER") String role
+			) {
 		ModelMapper modelMapper = new ModelMapper();
 		
 		UserDto userDto = modelMapper.map(userRequest, UserDto.class);
 
-		UserDto updateUser = userService.updateUser(id, userDto);
+		UserDto updateUser = userService.updateUser(id, userDto, role, photo);
 
 		return new ResponseEntity<>(modelMapper.map(updateUser, UserResponse.class), HttpStatus.ACCEPTED);
 

@@ -17,6 +17,7 @@ public class UserResponse {
 	private String sexUser;
 	private boolean status=true;
 	private String userName;
+	private String photo;
 	private Date createdAt;
 	private Date updatedAt;
 	private List<AddressResponse> addresses;

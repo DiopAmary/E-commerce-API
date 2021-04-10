@@ -26,6 +26,7 @@ public class UserDto implements Serializable{
 	private boolean status=true;
 	private String userName;
 	private Boolean emailVerificationStatus=false;
+	private String photo=null;
 	private Date createdAt;
 	private Date updatedAt;
 	private List<AddressDto> addresses=null;
