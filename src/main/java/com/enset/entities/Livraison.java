@@ -14,23 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-<<<<<<< HEAD
 //@Entity
-//@Table
-//@Data
-//@NoArgsConstructor 
-//@AllArgsConstructor
-//public class Livraison {
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	Long id;
-//	String codeLvr;
-//	Date dateLvr;
-//	double fraisLvr;
-//	String methodeLvr;
-//	Livreur livreur;
-//}
-=======
 @Entity
 @Table
 @Data
@@ -40,15 +24,15 @@ public class Livraison {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+	private Long id;
 	
-	String codeLvr;
+	private String codeLvr;
 	
-	Date dateLvr;
+	private Date dateLvr;
 	
-	double fraisLvr;
+	private double fraisLvr;
 	
-	String methodeLvr;
+	private String methodeLvr;
 	
 	@ManyToOne
 	@JoinColumn(name = "livreur_id", nullable = true)
@@ -56,4 +40,3 @@ public class Livraison {
 	
 
 }
->>>>>>> 592fe5bc980457e919bec3ec06bbc7463fb590d6
