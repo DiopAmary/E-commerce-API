@@ -2,19 +2,17 @@ package com.enset.entities;
 
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import lombok.AllArgsConstructor;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Table
-@Entity
 @Data
-@NoArgsConstructor 
-@AllArgsConstructor	
+@Entity(name = "livreurs")
 public class Livreur{
-
-	String codeLivreur;
+	
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String codeLivreur;
 	
 }
