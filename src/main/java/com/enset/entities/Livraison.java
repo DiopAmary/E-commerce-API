@@ -39,4 +39,8 @@ public class Livraison {
 	private Livreur livreur=null;
 	
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> master
