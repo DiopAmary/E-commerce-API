@@ -2,6 +2,7 @@ package com.enset.services.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -65,17 +66,18 @@ public class UserServiceImpl implements UserService{
 		
 		userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userEntity.setUserId(util.generateStringId(32));
-		userEntity.setPhoto(photo.getOriginalFilename());
-		UserEntity newUser = userRepository.save(userEntity);
-
-		String uploadDir = "ecommerce-pi/users-profile/" + newUser.getUserId();
-		String fileName = photo.getOriginalFilename();
-		System.out.println("saving file ....");
-		try {
-			Utils.saveFile(uploadDir,fileName, photo);
-		} catch (IOException e) {
-			e.printStackTrace();
+		
+		if(photo != null) {
+			userEntity.setPhoto(photo.getOriginalFilename());
+			String uploadDir = "ecommerce-pi/users-profile/" + userEntity.getUserId();
+			String fileName = photo.getOriginalFilename();
+			try {
+				Utils.saveFile(uploadDir,fileName, photo);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		UserEntity newUser = userRepository.save(userEntity);
 		return modelMapper.map(newUser, UserDto.class);
 	}
 
@@ -119,10 +121,12 @@ public class UserServiceImpl implements UserService{
 	public UserDto updateUser(String userId, UserDto userDto, String role, MultipartFile photo) {	
 		UserEntity userEntity = userRepository.findByUserId(userId);
 		RoleEntity roleType = roleRepository.findByLibelle(role);
+		Date dateCreation = userEntity.getCreatedAt();
 		long id = userEntity.getId();
 		
 		if (userEntity == null)
 			throw new UsernameNotFoundException(userId);
+		
 		ModelMapper modelMapper = new ModelMapper();
 		userEntity = modelMapper.map(userDto, UserEntity.class);
 		
@@ -131,6 +135,7 @@ public class UserServiceImpl implements UserService{
 		userEntity.setUserId(userId);
 		userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
 		userEntity.setRole(roleType);
+		userEntity.setCreatedAt(dateCreation);
 		
 		if(photo!=null) {
 			userEntity.setPhoto(photo.getOriginalFilename());
