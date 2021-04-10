@@ -49,6 +49,10 @@ public class Commande {
 	
 	private int CommentaireCmd;
 	
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = true)
+	private UserEntity user;
+	
 	@OneToMany(mappedBy = "commande",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<LigneCommande> lignesCommande;
 	
