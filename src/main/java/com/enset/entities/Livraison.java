@@ -37,10 +37,5 @@ public class Livraison {
 	@ManyToOne
 	@JoinColumn(name = "livreur_id", nullable = true)
 	private Livreur livreur=null;
-	
+}
 
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> master
