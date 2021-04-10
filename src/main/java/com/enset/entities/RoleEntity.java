@@ -12,11 +12,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.springframework.security.core.Transient;
+
 import lombok.Data;
 
-
-@Entity(name = "roles") 
+//@Transient
 @Data
+@Entity(name = "roles") 
 public class RoleEntity {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +27,6 @@ public class RoleEntity {
 	@Column(nullable = true,length = 5)
 	private String libelle;
 	
-	@OneToMany(mappedBy = "role",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "role",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private List<UserEntity> listUser = new ArrayList<UserEntity>();
 }

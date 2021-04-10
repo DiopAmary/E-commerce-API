@@ -1,6 +1,7 @@
 package com.enset.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 import lombok.ToString;
@@ -52,6 +61,28 @@ public class UserEntity implements Serializable{
 	private String photo=null;
 	
 	@Column(nullable = false)
+	private String numTel;
+	
+	@Column(nullable = false, length = 1)
+	private String sexUser;
+	
+	@Column(nullable = false)
+	private boolean status=true;
+	
+	@Column(nullable = false)
+	private String userName;
+	
+	@CreatedDate
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	private Date createdAt;
+	
+	@LastModifiedDate
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	private Date updatedAt;
+	
+	@Column(nullable = false)
 	private Boolean emailVerificationStatus=false;
 	
 	@OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -59,7 +90,17 @@ public class UserEntity implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name = "roles_id", nullable = true)
-	private RoleEntity role=null;
+	private RoleEntity role;
+	
+	@PrePersist
+	public void setCreatedAt() {
+		this.createdAt= new Date();
+	}
+	
+	@PreUpdate
+	public void seUpdatedAt() {
+		this.updatedAt= new Date();
+	}
 	
 	//rating review drame property !!!!
 	

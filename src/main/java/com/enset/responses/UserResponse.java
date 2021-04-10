@@ -1,5 +1,6 @@
 package com.enset.responses;
 
+import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
@@ -12,5 +13,13 @@ public class UserResponse {
 	private String lastName;
 	private String email;
 	private boolean admin;
-	private List<AddressResponse> addresses;	
+	private String numTel;
+	private String sexUser;
+	private boolean status=true;
+	private String userName;
+	private Date createdAt;
+	private Date updatedAt;
+	private List<AddressResponse> addresses;
+	
+	private RoleResponse role;
 }
