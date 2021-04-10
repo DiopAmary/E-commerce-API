@@ -14,11 +14,13 @@ import javax.persistence.OneToMany;
 
 import org.springframework.security.core.Transient;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-//@Transient
+@Transient
 @Data
-@Entity(name = "roles") 
+@Entity(name = "roles") @AllArgsConstructor @NoArgsConstructor
 public class RoleEntity {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
