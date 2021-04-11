@@ -127,6 +127,16 @@ public class UserServiceImpl implements UserService{
 		if (userEntity == null)
 			throw new UsernameNotFoundException(userId);
 		
+		if(userDto.getAddresses()!=null) {	
+			
+			for (int i = 0; i < userDto.getAddresses().size(); i++) {
+				AddressDto addressDto = userDto.getAddresses().get(i);
+				addressDto.setUser(userDto);
+				addressDto.setAddressId(util.generateStringId(30));
+				userDto.getAddresses().set(i, addressDto);
+			}
+		}
+		
 		ModelMapper modelMapper = new ModelMapper();
 		userEntity = modelMapper.map(userDto, UserEntity.class);
 		
@@ -155,8 +165,13 @@ public class UserServiceImpl implements UserService{
 	public void deleteUser(String userId) {
 		UserEntity userEntity = userRepository.findByUserId(userId);
 		if (userEntity == null)
-			throw new UsernameNotFoundException(userId);
-		userRepository.delete(userEntity);
+			throw new UsernameNotFoundException("user does not exist !!!");
+		try {
+			userRepository.delete(userEntity);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		
 		System.out.println("user deleted successfully !!");
 	}
 	

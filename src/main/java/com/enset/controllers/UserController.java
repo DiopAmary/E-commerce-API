@@ -81,9 +81,8 @@ public class UserController {
 			@Valid UserRequest userRequest,
 			@RequestPart(name = "photo", required = false) MultipartFile photo,
 			@RequestParam(name = "roleName", defaultValue = "USER") String role,
-			@RequestPart(name = "addresse") List<AddressRequest> addresses
+			@RequestPart(name = "addresse", required = false) List<AddressRequest> addresses
 			) throws Exception {
-		
 		
 		System.out.println("addresses => " + addresses);
 		
@@ -116,8 +115,10 @@ public class UserController {
 			@PathVariable String id,
 			@Valid UserRequest userRequest,
 			@RequestParam(name = "photo", required = false) MultipartFile photo,
-			@RequestParam(name = "roleName",defaultValue = "USER") String role
+			@RequestParam(name = "roleName",defaultValue = "USER") String role,
+			@RequestPart(name = "addresse", required = false) List<AddressRequest> addresses
 			) {
+		userRequest.setAddresses(addresses);
 		ModelMapper modelMapper = new ModelMapper();
 		UserDto userDto = modelMapper.map(userRequest, UserDto.class);
 		UserDto updateUser = userService.updateUser(id, userDto, role, photo);
@@ -125,6 +126,7 @@ public class UserController {
 
 	}
 
+	
 	
 	@DeleteMapping(path = "/{id}") // remove user
 	public ResponseEntity<Object> deleteUser(@PathVariable String id) {
