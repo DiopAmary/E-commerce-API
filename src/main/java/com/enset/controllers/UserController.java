@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.enset.dto.UserDto;
 import com.enset.exceptions.UserException;
+import com.enset.requests.AddressRequest;
 import com.enset.requests.UserRequest;
 import com.enset.responses.ErrorMessages;
 import com.enset.responses.UserResponse;
@@ -38,7 +39,13 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	@GetMapping(
+			path = "/{id}", 
+			produces = { 
+					MediaType.APPLICATION_XML_VALUE, 
+					MediaType.APPLICATION_JSON_VALUE 
+					}
+			)
 	public ResponseEntity<UserResponse> getUser(@PathVariable String id){
 		UserDto userDto = userService.getUserByUserId(id);
 		ModelMapper modelMapper = new ModelMapper();
@@ -73,8 +80,14 @@ public class UserController {
 	public ResponseEntity<UserResponse> createUser(
 			@Valid UserRequest userRequest,
 			@RequestPart(name = "photo", required = false) MultipartFile photo,
-			@RequestParam(name = "roleName", defaultValue = "USER") String role
+			@RequestParam(name = "roleName", defaultValue = "USER") String role,
+			@RequestPart(name = "addresse") List<AddressRequest> addresses
 			) throws Exception {
+		
+		
+		System.out.println("addresses => " + addresses);
+		
+		userRequest.setAddresses(addresses);
 		
 		if (userRequest.getUserName().isEmpty())
 			throw new UserException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
@@ -106,11 +119,8 @@ public class UserController {
 			@RequestParam(name = "roleName",defaultValue = "USER") String role
 			) {
 		ModelMapper modelMapper = new ModelMapper();
-		
 		UserDto userDto = modelMapper.map(userRequest, UserDto.class);
-
 		UserDto updateUser = userService.updateUser(id, userDto, role, photo);
-
 		return new ResponseEntity<>(modelMapper.map(updateUser, UserResponse.class), HttpStatus.ACCEPTED);
 
 	}
@@ -118,9 +128,7 @@ public class UserController {
 	
 	@DeleteMapping(path = "/{id}") // remove user
 	public ResponseEntity<Object> deleteUser(@PathVariable String id) {
-		
 		userService.deleteUser(id);
-		
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 

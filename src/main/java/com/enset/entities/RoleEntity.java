@@ -29,6 +29,6 @@ public class RoleEntity {
 	@Column(nullable = true,length = 5)
 	private String libelle;
 	
-	@OneToMany(mappedBy = "role",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "role",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<UserEntity> listUser = new ArrayList<UserEntity>();
 }

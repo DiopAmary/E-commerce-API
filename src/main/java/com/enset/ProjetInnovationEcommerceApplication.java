@@ -26,6 +26,12 @@ public class ProjetInnovationEcommerceApplication implements CommandLineRunner{
 	public BCryptPasswordEncoder bCryptpassPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	@Bean
+	public SpringApplicationContext springApplicationContext() {
+		return new SpringApplicationContext();
+	}
+	
 
 	@Override
 	public void run(String... args) throws Exception {
