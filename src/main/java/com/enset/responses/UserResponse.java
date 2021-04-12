@@ -2,6 +2,7 @@ package com.enset.responses;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import lombok.Data;
 import lombok.ToString;
@@ -22,5 +23,5 @@ public class UserResponse {
 	private Date updatedAt;
 	private List<AddressResponse> addresses;
 	
-	private RoleResponse role;
+	private Set<RoleResponse> roles;
 }

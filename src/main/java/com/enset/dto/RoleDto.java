@@ -9,13 +9,11 @@ import lombok.ToString;
 
 @Data
 public class RoleDto implements Serializable{
-
+	
 	private static final long serialVersionUID = 7777679630373678489L;
-
+	
 	private long id;
-	
 	private String libelle;
-	
-	private List<UserDto> listUser = new ArrayList<UserDto>();
+	private String designation;
 
 }

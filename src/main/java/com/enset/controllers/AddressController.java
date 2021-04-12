@@ -72,7 +72,7 @@ public class AddressController {
 		return new ResponseEntity<AddressResponse>(addressResponse, HttpStatus.OK);
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<AddressResponse> updateAddresse(@PathVariable(name = "id") String addressId,
 			@RequestBody AddressRequest addressRequest) {
 		ModelMapper modelMapper = new ModelMapper();
@@ -82,7 +82,7 @@ public class AddressController {
 		return new ResponseEntity<AddressResponse>(addressResponse, HttpStatus.ACCEPTED);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteAddresse(@PathVariable(name = "id") String addressId) {
 		addressService.deleteAddress(addressId);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

@@ -26,6 +26,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		System.out.println("http => " + http.headers());
+		
 		http
 			.cors().and()
 			.csrf().disable()
@@ -33,7 +35,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.permitAll()
 			.and()
 			.authorizeRequests().antMatchers("/user**/**","/address**/**")
-			.permitAll()
+			.hasAnyAuthority("ROLE_ADMIN")
 			.anyRequest().authenticated()
 			.and()
 			.addFilter(getAuthenticationFilter())
@@ -53,18 +55,4 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 	}
-	
-	
-	
-	
-	
-	//web security
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//		
-//		http
-//			.csrf().disable()
-//			.authorizeRequests().antMatchers("/api/**").permitAll()
-//			.anyRequest().permitAll();
-//	}
 }
