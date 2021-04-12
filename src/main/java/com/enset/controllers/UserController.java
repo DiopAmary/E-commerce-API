@@ -2,6 +2,7 @@ package com.enset.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.enset.dto.UserDto;
 import com.enset.exceptions.UserException;
 import com.enset.requests.AddressRequest;
+import com.enset.requests.RoleRequest;
 import com.enset.requests.UserRequest;
 import com.enset.responses.ErrorMessages;
 import com.enset.responses.UserResponse;
@@ -80,19 +83,21 @@ public class UserController {
 	public ResponseEntity<UserResponse> createUser(
 			@Valid UserRequest userRequest,
 			@RequestPart(name = "photo", required = false) MultipartFile photo,
-			@RequestParam(name = "roleName", defaultValue = "USER") String role,
-			@RequestPart(name = "addresse", required = false) List<AddressRequest> addresses
+			@RequestPart(name = "addresse", required = false) List<AddressRequest> addresses,
+			@RequestPart(name = "rolesUser", required = false) Set<RoleRequest> roles
 			) throws Exception {
 		
-		System.out.println("addresses => " + addresses);
+		System.out.println("user => " + userRequest);
+		System.out.println("roles => " + roles);
 		
 		userRequest.setAddresses(addresses);
+		userRequest.setRoles(roles);
 		
 		if (userRequest.getUserName().isEmpty())
 			throw new UserException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 		ModelMapper modelMapper = new ModelMapper();
 		UserDto userDto = modelMapper.map(userRequest, UserDto.class);
-		UserDto createUser = userService.createUser(userDto, role, photo);
+		UserDto createUser = userService.createUser(userDto, photo);
 		return new ResponseEntity<>( modelMapper.map(createUser, UserResponse.class), HttpStatus.CREATED );
 	}
 	
@@ -116,12 +121,14 @@ public class UserController {
 			@Valid UserRequest userRequest,
 			@RequestParam(name = "photo", required = false) MultipartFile photo,
 			@RequestParam(name = "roleName",defaultValue = "USER") String role,
-			@RequestPart(name = "addresse", required = false) List<AddressRequest> addresses
+			@RequestPart(name = "addresse", required = false) List<AddressRequest> addresses,
+			@RequestPart(name = "rolesUser", required = false) Set<RoleRequest> roles
 			) {
 		userRequest.setAddresses(addresses);
+		userRequest.setRoles(roles);
 		ModelMapper modelMapper = new ModelMapper();
 		UserDto userDto = modelMapper.map(userRequest, UserDto.class);
-		UserDto updateUser = userService.updateUser(id, userDto, role, photo);
+		UserDto updateUser = userService.updateUser(id, userDto, photo);
 		return new ResponseEntity<>(modelMapper.map(updateUser, UserResponse.class), HttpStatus.ACCEPTED);
 
 	}

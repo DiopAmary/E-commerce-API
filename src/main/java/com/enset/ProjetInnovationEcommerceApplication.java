@@ -35,8 +35,8 @@ public class ProjetInnovationEcommerceApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		//roleRepository.save(new RoleEntity(null,"ADMIN",null));
-		//roleRepository.save(new RoleEntity(null,"USER",null));
+		//roleRepository.save(new RoleEntity(null,"ADMIN","role admin"));
+		//roleRepository.save(new RoleEntity(null,"USER","role user"));
 	}
 	
 }
