@@ -1,5 +1,6 @@
 package com.enset.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,8 +53,8 @@ public class Commande {
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = true)
 	private UserEntity user;
-	
+	/*
 	@OneToMany(mappedBy = "commande",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<LigneCommande> lignesCommande;
-	
+	private List<LigneCommande> lignesCommande = new ArrayList<LigneCommande>();
+	*/
 }

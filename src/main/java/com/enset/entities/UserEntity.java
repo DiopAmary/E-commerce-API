@@ -23,11 +23,15 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @Entity(name = "users") @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity implements Serializable{
 
 	private static final long serialVersionUID = -5763827745308343856L;
