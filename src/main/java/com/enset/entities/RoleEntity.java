@@ -1,7 +1,9 @@
 package com.enset.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,8 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-
 import org.springframework.security.core.Transient;
 
 import lombok.AllArgsConstructor;
@@ -29,6 +31,9 @@ public class RoleEntity {
 	@Column(nullable = true,length = 5)
 	private String libelle;
 	
-	@OneToMany(mappedBy = "role",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<UserEntity> listUser = new ArrayList<UserEntity>();
+	@Column(nullable = true)
+	private String description;
+
+//	@OneToMany(mappedBy = "role",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//	private List<UserEntity> listUser = new ArrayList<UserEntity>();
 }

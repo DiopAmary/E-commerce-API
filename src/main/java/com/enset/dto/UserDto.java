@@ -1,8 +1,11 @@
 package com.enset.dto;
 
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 
@@ -31,7 +34,11 @@ public class UserDto implements Serializable{
 	private Date createdAt;
 	private Date updatedAt;
 	private List<AddressDto> addresses=null;
-	private RoleDto role;
+	private Set<RoleDto> roles = new HashSet<RoleDto>();
 	
+	@Transient
+	public void addRole(RoleDto roleDto) {
+		this.roles.add(roleDto);
+	}
 	
 }

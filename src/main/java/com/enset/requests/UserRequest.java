@@ -1,6 +1,8 @@
 package com.enset.requests;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -8,9 +10,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
+@Data @NoArgsConstructor @AllArgsConstructor
 public class UserRequest {
 
 	@NotBlank(message = "ce champ ne doit pas etre null")
@@ -42,7 +46,7 @@ public class UserRequest {
 	
 	private boolean admin;
 
-	private RoleRequest role;
+	private Set<RoleRequest> roles;
 		
 	private List<AddressRequest> addresses;
 	
