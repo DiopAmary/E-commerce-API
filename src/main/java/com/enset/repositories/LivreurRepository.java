@@ -14,6 +14,6 @@ public interface LivreurRepository extends JpaRepository<Livreur, Long>{
 	public Page<Livreur> findAll(Pageable pageable);
 	public Livreur findByCodeLivreur(String codeLivreur);
 	public Livreur findByAddress(AddressEntity address);
-	public Page<Livreur> findByDateCmd(Date dateCmd,Pageable pageable);
+	public Page<Livreur> findByAddress(AddressEntity address,Pageable pageable);
 
 }
