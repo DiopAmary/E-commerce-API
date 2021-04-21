@@ -25,7 +25,7 @@ public class FournisseurEntity implements Serializable {
     private String codeFournisseur;
 
     @Column(nullable = false, length = 50)
-    private String nomFournissuer;
+    private String nomFournisseur;
 
     @Column(nullable = false)
     private String descriptionFournisseur;
