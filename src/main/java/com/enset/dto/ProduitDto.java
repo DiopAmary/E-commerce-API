@@ -1,19 +1,16 @@
-package com.enset.responses;
+package com.enset.dto;
 
-import com.enset.entities.ProduitImagesEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class ProduitResponse {
 
+import lombok.Data;
+
+@Data
+public class ProduitDto implements Serializable {
+    private static final long serialVersionUID = -4027211697076850818L;
+
+    private long id;
     private String codeProd;
     private String nomProd;
     private String descriptionProd;
@@ -26,5 +23,5 @@ public class ProduitResponse {
     private int qteStock;
     private Date createdAt;
     private Date updatedAt;
-    private List<ProduitImagesResponse> produitImages;
+    private List<ProduitImagesDto> produitImages;
 }
