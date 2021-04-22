@@ -31,5 +31,7 @@ public class ProduitRequest {
 
     private int qteStock;
 
-    private List<ProduitImagesRequest> produitImages;
+    private CategorieRequest categorie;
+
+    private FournisseurRequest fournisseur;
 }

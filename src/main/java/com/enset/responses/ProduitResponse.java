@@ -1,6 +1,5 @@
 package com.enset.responses;
 
-import com.enset.entities.ProduitImagesEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,5 +25,7 @@ public class ProduitResponse {
     private int qteStock;
     private Date createdAt;
     private Date updatedAt;
+    private CategorieResponse categorie;
+    private FournisseurResponse fournisseur;
     private List<ProduitImagesResponse> produitImages;
 }

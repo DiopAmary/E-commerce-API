@@ -23,5 +23,7 @@ public class ProduitDto implements Serializable {
     private int qteStock;
     private Date createdAt;
     private Date updatedAt;
+    private CategorieDto categorie;
+    private FournisseurDto fournisseur;
     private List<ProduitImagesDto> produitImages;
 }

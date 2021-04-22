@@ -10,4 +10,5 @@ public class ProduitImagesDto implements Serializable {
 
     private long id;
     private String image;
+    private ProduitDto produit;
 }
