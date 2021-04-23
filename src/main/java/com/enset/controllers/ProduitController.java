@@ -46,10 +46,7 @@ public class ProduitController {
 
     @GetMapping(
             path = "/{codeProduit}",
-            produces = {
-                    MediaType.APPLICATION_XML_VALUE,
-                    MediaType.APPLICATION_JSON_VALUE
-            }
+            produces = { MediaType.APPLICATION_JSON_VALUE }
     )
     public ResponseEntity<ProduitResponse> getUser(@PathVariable String codeProduit) throws Exception {
         ProduitDto produitDto = produitService.getProduitByCodeProd(codeProduit);
@@ -60,15 +57,8 @@ public class ProduitController {
 
     @PutMapping(
             path = "/update/{codeProduit}",
-            consumes = {
-                    MediaType.APPLICATION_XML_VALUE,
-                    MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.MULTIPART_FORM_DATA_VALUE
-            },
-            produces = {
-                    MediaType.APPLICATION_XML_VALUE,
-                    MediaType.APPLICATION_JSON_VALUE
-            }
+            consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE }
     )
     public @ResponseBody ResponseEntity<ProduitResponse> updateProduit(
             @PathVariable String codeProduit,
@@ -86,7 +76,7 @@ public class ProduitController {
 
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/{codeProduit}")
     public ResponseEntity<Object> deleProduit(@PathVariable String codeProduit) {
         try {
             produitService.deleteProduit(codeProduit);

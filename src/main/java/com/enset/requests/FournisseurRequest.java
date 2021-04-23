@@ -29,5 +29,4 @@ public class FournisseurRequest {
 
     @NotNull(message = "Ce champ ne doit pas être null")
     private String telFournisseur;
-    private List<ProduitRequest> produits;
 }
