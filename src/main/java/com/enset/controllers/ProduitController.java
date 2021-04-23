@@ -60,9 +60,8 @@ public class ProduitController {
             path = "/{codeProduit}",
             produces = { MediaType.APPLICATION_JSON_VALUE }
     )
-    public ResponseEntity<ProduitResponse> getUser(@PathVariable String codeProduit) throws Exception {
+    public ResponseEntity<ProduitResponse> getProduit(@PathVariable String codeProduit) throws Exception {
         ProduitDto produitDto = produitService.getProduitByCodeProd(codeProduit);
-        System.out.println(produitDto);
         ModelMapper modelMapper = new ModelMapper();
         return new ResponseEntity<>(modelMapper.map(produitDto, ProduitResponse.class), HttpStatus.OK);
     }
