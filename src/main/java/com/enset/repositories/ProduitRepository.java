@@ -10,7 +10,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface ProduitRepository extends JpaRepository<ProduitEntity, Long> {
-    public Page<ProduitEntity> findByNomProdContains(String motCle, Pageable pageable);
-    public Page<ProduitEntity> findByCategorie(CategorieEntity categorie, Pageable pageable);
-    public Page<ProduitEntity> findByFournisseur(FournisseurEntity fournisser, Pageable pageable);
+    Page<ProduitEntity> findByNomProdContains(Pageable pageable, String search, int status);
+    Page<ProduitEntity> findByCategorie(CategorieEntity categorie, Pageable pageable);
+    Page<ProduitEntity> findByFournisseur(FournisseurEntity fournisser, Pageable pageable);
+    ProduitEntity findByCodeProd(String codeProduit);
 }
