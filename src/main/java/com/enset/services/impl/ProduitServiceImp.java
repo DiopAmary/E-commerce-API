@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,6 +26,11 @@ public class ProduitServiceImp implements ProduitService {
     Utils utils;
     @Autowired
     ProduitRepository produitRepository;
+
+    /*------------------------------------------------------------------------
+    ----------------------->> createProduit <<--------------------------------
+    ------------------------------------------------------------------------*/
+
 
     @Override
     public ProduitDto createProduit(ProduitDto produitDto, List<MultipartFile> photos) {
@@ -53,6 +59,12 @@ public class ProduitServiceImp implements ProduitService {
         return modelMapper.map(produit, ProduitDto.class);
     }
 
+
+    /*-------------------------------------------------------------------------------
+    ----------------------->> getProduitByCodeProd <<--------------------------------
+    -------------------------------------------------------------------------------*/
+
+
     @Override
     public ProduitDto getProduitByCodeProd(String codeProd) throws Exception {
         ProduitEntity produitEntity = produitRepository.findByCodeProd(codeProd);
@@ -62,10 +74,53 @@ public class ProduitServiceImp implements ProduitService {
         return modelMapper.map(produitEntity, ProduitDto.class);
     }
 
+
+    /*------------------------------------------------------------------------
+    ----------------------->> updateProduit <<--------------------------------
+    ------------------------------------------------------------------------*/
+
+
     @Override
-    public ProduitDto updateProduit(String codeProd, ProduitDto produitDto, List<MultipartFile> photos) {
-        return null;
+    public ProduitDto updateProduit(String codeProd, ProduitDto produitDto, List<MultipartFile> photos) throws Exception {
+        ModelMapper modelMapper = new ModelMapper();
+
+        ProduitEntity produitEntity = produitRepository.findByCodeProd(codeProd);
+        if (produitEntity != null){
+            Date dateCreation = produitEntity.getCreatedAt();
+            long id = produitEntity.getId();
+            double tva = produitDto.getPrixVente() * 0.2;
+            produitDto.setId(id);
+            produitDto.setCodeProd(codeProd);
+            produitDto.setCreatedAt(dateCreation);
+            produitDto.setTva(tva);
+
+            if(!photos.isEmpty()){
+                int i=0;
+                for(MultipartFile photo : photos){
+                    String uploadDir = "ecommerce-pi/produit-images/" + produitDto.getCodeProd();
+                    String fileName = photo.getOriginalFilename();
+                    try {
+                        Utils.saveFile(uploadDir,fileName, photo);
+                        ProduitImagesDto image= new ProduitImagesDto(0, photo.getOriginalFilename(), produitDto);
+                        produitDto.getProduitImages().set(i, image);
+                        i++;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            produitEntity = modelMapper.map(produitDto, ProduitEntity.class);
+            ProduitEntity nouveauProduit = produitRepository.save(produitEntity);
+            return modelMapper.map(nouveauProduit, ProduitDto.class);
+        }else
+            throw new Exception("Ce produit n'existe pas");
     }
+
+
+    /*------------------------------------------------------------------------
+    ----------------------->> deleteProduit <<--------------------------------
+    ------------------------------------------------------------------------*/
+
 
     @Override
     public void deleteProduit(String codeProd) throws Exception {
@@ -80,6 +135,12 @@ public class ProduitServiceImp implements ProduitService {
 
         System.out.println("Produit supprimé avec succés !!!");
     }
+
+
+    /*----------------------------------------------------------------------
+    ----------------------->> getProduits <<--------------------------------
+    ----------------------------------------------------------------------*/
+
 
     @Override
     public List<ProduitDto> getProduits(int page, int size, String search, int status) {

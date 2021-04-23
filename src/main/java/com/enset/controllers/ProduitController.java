@@ -23,6 +23,12 @@ public class ProduitController {
     @Autowired
     ProduitService produitService;
 
+
+    /*------------------------------------------------------------------------
+    ---------------------------->> POST <<------------------------------------
+    ----------------------->> /api/produit/add <<-----------------------------
+    ------------------------------------------------------------------------*/
+
     @PostMapping(
             path = "/add",
             consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE },
@@ -44,6 +50,12 @@ public class ProduitController {
         return new ResponseEntity<>(modelMapper.map(prod, ProduitResponse.class), HttpStatus.CREATED);
     }
 
+
+    /*------------------------------------------------------------------------
+    ---------------------------->> GET <<-------------------------------------
+    -------------------->> /api/produit/{codeProduit} <<----------------------
+    ------------------------------------------------------------------------*/
+
     @GetMapping(
             path = "/{codeProduit}",
             produces = { MediaType.APPLICATION_JSON_VALUE }
@@ -54,6 +66,12 @@ public class ProduitController {
         ModelMapper modelMapper = new ModelMapper();
         return new ResponseEntity<>(modelMapper.map(produitDto, ProduitResponse.class), HttpStatus.OK);
     }
+
+
+    /*------------------------------------------------------------------------
+    ---------------------------->> PUT <<-------------------------------------
+    ------------------->> /api/produit/{codeProduit} <<-----------------------
+    ------------------------------------------------------------------------*/
 
     @PutMapping(
             path = "/update/{codeProduit}",
@@ -71,10 +89,20 @@ public class ProduitController {
         produitRequest.setFournisseur(fournisseur);
         ModelMapper modelMapper = new ModelMapper();
         ProduitDto produitDto = modelMapper.map(produitRequest, ProduitDto.class);
-        ProduitDto updateProduit = produitService.updateProduit(codeProduit, produitDto, photos);
+        ProduitDto updateProduit = null;
+        try {
+            updateProduit = produitService.updateProduit(codeProduit, produitDto, photos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity<>(modelMapper.map(updateProduit, ProduitResponse.class), HttpStatus.ACCEPTED);
-
     }
+
+
+    /*------------------------------------------------------------------------
+    --------------------------->> DELETE <<-----------------------------------
+    --------------------->> /api/produit/{codeProduit} <<---------------------
+    ------------------------------------------------------------------------*/
 
     @DeleteMapping(path = "/{codeProduit}")
     public ResponseEntity<Object> deleProduit(@PathVariable String codeProduit) {
@@ -86,6 +114,11 @@ public class ProduitController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+
+    /*------------------------------------------------------------------------
+    ---------------------------->> GET <<-------------------------------------
+    ----------------------->> /api/produit/ <<--------------------------------
+    ------------------------------------------------------------------------*/
 
     @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<List<ProduitResponse>> getProduits(
