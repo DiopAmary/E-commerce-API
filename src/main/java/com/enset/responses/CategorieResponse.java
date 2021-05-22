@@ -1,10 +1,12 @@
 package com.enset.responses;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -12,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class CategorieResponse {
+public class CategorieResponse  implements Serializable {
     private String codeCategorie;
     private String libelle;
     private String descriptionCategorie;

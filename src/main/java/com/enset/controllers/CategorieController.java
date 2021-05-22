@@ -2,7 +2,6 @@ package com.enset.controllers;
 
 import com.enset.dto.CategorieDto;
 import com.enset.requests.CategorieRequest;
-import com.enset.requests.ProduitRequest;
 import com.enset.responses.CategorieResponse;
 import com.enset.services.CategorieService;
 import org.modelmapper.ModelMapper;
@@ -31,12 +30,11 @@ public class CategorieController {
 
     @PostMapping(
             path = "/add",
-            consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE },
             produces = { MediaType.APPLICATION_JSON_VALUE }
     )
     @ResponseBody
     public ResponseEntity<CategorieResponse> createCategorie(
-            @Valid ProduitRequest categorieRequest
+            @Valid CategorieRequest categorieRequest
     ){
         ModelMapper modelMapper = new ModelMapper();
         CategorieDto categorieDto = modelMapper.map(categorieRequest, CategorieDto.class);
@@ -111,12 +109,10 @@ public class CategorieController {
     @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<List<CategorieResponse>> getCategories(
             @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "size", defaultValue = "5") int size,
-            @RequestParam(value = "search",defaultValue = "") String search,
-            @RequestParam(value = "status",defaultValue = "1") int status
+            @RequestParam(value = "size", defaultValue = "5") int size
     ){
         List<CategorieResponse> categorieResponse = new ArrayList<>();
-        List<CategorieDto> categories = categorieService.getCategories(page,size,search,status);
+        List<CategorieDto> categories = categorieService.getCategories(page,size);
         for(CategorieDto categorieDto : categories) {
             ModelMapper modelMapper = new ModelMapper();
             CategorieResponse categorie = modelMapper.map(categorieDto, CategorieResponse.class);

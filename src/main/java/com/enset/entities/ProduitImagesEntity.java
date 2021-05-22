@@ -20,7 +20,7 @@ public class ProduitImagesEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String image = null;
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "produit_id")

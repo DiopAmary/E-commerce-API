@@ -1,7 +1,6 @@
 package com.enset.services.impl;
 
 import com.enset.dto.CategorieDto;
-import com.enset.dto.ProduitDto;
 import com.enset.entities.CategorieEntity;
 import com.enset.entities.ProduitEntity;
 import com.enset.repositories.CategorieRepository;
@@ -13,10 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+@Service
+@Transactional
 public class CategorieServiceImpl implements CategorieService {
     @Autowired
     Utils utils;
@@ -105,7 +109,7 @@ public class CategorieServiceImpl implements CategorieService {
     ------------------------------------------------------------------------*/
 
     @Override
-    public List<CategorieDto> getCategories(int page, int size, String search, int status) {
+    public List<CategorieDto> getCategories(int page, int size) {
         if (page > 0)
             page -= 1;
 
@@ -113,11 +117,7 @@ public class CategorieServiceImpl implements CategorieService {
         Pageable pageableRequest = PageRequest.of(page, size);
 
         Page<CategorieEntity> categories;
-        if(search.isEmpty()) {
-            categories = categorieRepository.findAll(pageableRequest);
-        }else {
-            categories = categorieRepository.findCategorieByCritere(pageableRequest, search, status);
-        }
+        categories = categorieRepository.findAll(pageableRequest);
         ModelMapper modelMapper  =new ModelMapper();
         for (CategorieEntity categorieEntity : categories) {
             CategorieDto categorie =modelMapper.map(categorieEntity, CategorieDto.class);

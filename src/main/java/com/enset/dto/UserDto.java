@@ -9,6 +9,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 
+
+
 import lombok.Data;
 
 @Data
@@ -35,7 +37,7 @@ public class UserDto implements Serializable{
 	private Date updatedAt;
 	private List<AddressDto> addresses=null;
 	private Set<RoleDto> roles = new HashSet<RoleDto>();
-	
+	  private Set<RatingReviewDto> ratingReview= new HashSet<RatingReviewDto> ();
 	@Transient
 	public void addRole(RoleDto roleDto) {
 		this.roles.add(roleDto);

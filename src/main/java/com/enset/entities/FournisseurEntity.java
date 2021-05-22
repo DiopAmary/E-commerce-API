@@ -31,7 +31,7 @@ public class FournisseurEntity implements Serializable {
     private String descriptionFournisseur;
 
     @Column(nullable = false, length = 100)
-    private String emailFourisseur;
+    private String emailFournisseur;
 
     @Column(nullable = false)
     private String adresseFournisseur;
@@ -39,7 +39,6 @@ public class FournisseurEntity implements Serializable {
     @Column(nullable = false, length = 50)
     private String telFournisseur;
 
-    private String photo=null;
 
     @OneToMany(mappedBy = "fournisseur",fetch = FetchType.EAGER)
     private List<ProduitEntity> produits;

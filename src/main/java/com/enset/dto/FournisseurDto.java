@@ -12,11 +12,10 @@ public class FournisseurDto implements Serializable {
 
     private long id;
     private String codeFournisseur;
-    private String nomFournissuer;
+    private String nomFournisseur;
     private String descriptionFournisseur;
-    private String emailFourisseur;
+    private String emailFournisseur;
     private String adresseFournisseur;
     private String telFournisseur;
-    private String photo;
     private List<ProduitDto> produits;
 }

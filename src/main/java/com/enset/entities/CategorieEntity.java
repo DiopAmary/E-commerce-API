@@ -32,4 +32,11 @@ public class CategorieEntity implements Serializable {
 
     @OneToMany(mappedBy = "categorie",fetch = FetchType.EAGER)
     private List<ProduitEntity> produits;
+
+    public CategorieEntity(long id, String codeCategorie, String libelle, String description){
+        this.id = id;
+        this.codeCategorie = codeCategorie;
+        this.libelle = libelle;
+        this.descriptionCategorie = description;
+    }
 }

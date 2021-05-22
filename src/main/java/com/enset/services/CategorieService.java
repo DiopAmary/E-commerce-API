@@ -9,5 +9,5 @@ public interface CategorieService {
      CategorieDto findCategorieByCodeCategorie(String code) throws Exception;
      CategorieDto updateCategorie(String codeCategorie, CategorieDto categorieDto) throws Exception;
      void deleteCategorie(String codeCategorie) throws Exception;
-     List<CategorieDto> getCategories(int page, int size, String search, int status);
+     List<CategorieDto> getCategories(int page, int size);
 }

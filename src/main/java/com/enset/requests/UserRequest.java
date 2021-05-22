@@ -1,6 +1,7 @@
 package com.enset.requests;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -49,5 +50,6 @@ public class UserRequest {
 	private Set<RoleRequest> roles;
 		
 	private List<AddressRequest> addresses;
+	  private Set<RatingReviewRequest> ratingReview= new HashSet<RatingReviewRequest> ();
 	
 }

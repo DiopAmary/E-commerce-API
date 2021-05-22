@@ -2,7 +2,9 @@ package com.enset.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import lombok.Data;
 
@@ -26,4 +28,5 @@ public class ProduitDto implements Serializable {
     private CategorieDto categorie;
     private FournisseurDto fournisseur;
     private List<ProduitImagesDto> produitImages;
+    private Set<RatingReviewDto> ratingReview= new HashSet<RatingReviewDto> ();
 }

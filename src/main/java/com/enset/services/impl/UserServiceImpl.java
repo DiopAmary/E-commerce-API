@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +34,7 @@ import com.enset.utils.Utils;
 
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService{
 
 	@Autowired

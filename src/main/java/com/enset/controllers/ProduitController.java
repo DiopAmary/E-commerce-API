@@ -1,8 +1,12 @@
 package com.enset.controllers;
 
+import com.enset.dto.CategorieDto;
+import com.enset.dto.FournisseurDto;
 import com.enset.dto.ProduitDto;
 import com.enset.requests.*;
 import com.enset.responses.ProduitResponse;
+import com.enset.services.CategorieService;
+import com.enset.services.FournisseurService;
 import com.enset.services.ProduitService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,10 @@ public class ProduitController {
 
     @Autowired
     ProduitService produitService;
+    @Autowired
+    CategorieService categorieService;
+    @Autowired
+    FournisseurService fournisseurService;
 
 
     /*------------------------------------------------------------------------
@@ -31,22 +39,20 @@ public class ProduitController {
 
     @PostMapping(
             path = "/add",
-            consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE },
             produces = { MediaType.APPLICATION_JSON_VALUE }
     )
     @ResponseBody
     public ResponseEntity<ProduitResponse> createProduit(
-            @Valid ProduitRequest produitRequest,
-            @RequestPart(name="photos", required=false) List<MultipartFile> photos,
-            @RequestPart(name="categorie", required=false) CategorieRequest categorie,
-            @RequestPart(name="fournisseur", required=false)FournisseurRequest fournisseur
-            ){
-        produitRequest.setCategorie(categorie);
-        produitRequest.setFournisseur(fournisseur);
-
+            @Valid ProduitRequest produitRequest
+            ) throws Exception
+    {
+        CategorieDto categorieDto = categorieService.findCategorieByCodeCategorie(produitRequest.getCodeCategorie());
+        FournisseurDto fournisseurDto = fournisseurService.getFournisseurByCode(produitRequest.getCodeFournisseur());
         ModelMapper modelMapper = new ModelMapper();
         ProduitDto produitDto = modelMapper.map(produitRequest, ProduitDto.class);
-        ProduitDto prod = produitService.createProduit(produitDto, photos);
+        produitDto.setCategorie(categorieDto);
+        produitDto.setFournisseur(fournisseurDto);
+        ProduitDto prod = produitService.createProduit(produitDto);
         return new ResponseEntity<>(modelMapper.map(prod, ProduitResponse.class), HttpStatus.CREATED);
     }
 
@@ -80,12 +86,8 @@ public class ProduitController {
     public @ResponseBody ResponseEntity<ProduitResponse> updateProduit(
             @PathVariable String codeProduit,
             @Valid ProduitRequest produitRequest,
-            @RequestParam(name = "photos", required = false) List<MultipartFile> photos,
-            @RequestParam(name = "categorie",required = false) CategorieRequest categorie,
-            @RequestPart(name = "fournisseur", required = false) FournisseurRequest fournisseur
+            @RequestParam(name = "photos", required = false) List<MultipartFile> photos
     ) {
-        produitRequest.setCategorie(categorie);
-        produitRequest.setFournisseur(fournisseur);
         ModelMapper modelMapper = new ModelMapper();
         ProduitDto produitDto = modelMapper.map(produitRequest, ProduitDto.class);
         ProduitDto updateProduit = null;
@@ -122,12 +124,10 @@ public class ProduitController {
     @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<List<ProduitResponse>> getProduits(
             @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "size", defaultValue = "5") int size,
-            @RequestParam(value = "search",defaultValue = "") String search,
-            @RequestParam(value = "status",defaultValue = "1") int status
+            @RequestParam(value = "size", defaultValue = "5") int size
     ){
         List<ProduitResponse> produitResponse = new ArrayList<>();
-        List<ProduitDto> produits = produitService.getProduits(page,size,search,status);
+        List<ProduitDto> produits = produitService.getProduits(page,size);
         for(ProduitDto produitDto:produits) {
             ModelMapper modelMapper = new ModelMapper();
             ProduitResponse produit = modelMapper.map(produitDto, ProduitResponse.class);

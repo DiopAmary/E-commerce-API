@@ -5,13 +5,17 @@ import java.util.Date;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import com.enset.entities.Commande;
-import com.enset.entities.Livraison;
+import com.enset.entities.LivraisonEntity;
+import com.enset.entities.LivreurEntity;
 
-public interface LivraisonRepository extends JpaRepository<Livraison,Long> {
+@Repository
+public interface LivraisonRepository extends JpaRepository<LivraisonEntity,Long> {
 
-	public Page<Livraison> findAll(Pageable pageable);
-	public Page<Livraison> findByCodeLvr(String codeLvr,Pageable pageable);
-	public Page<Livraison> findByDateLvr(Date dateLvr,Pageable pageable);
+	public Page<LivraisonEntity> findAll(Pageable pageable);
+	public LivraisonEntity findByCodeLvr(String codeLvr);
+	public Page<LivraisonEntity> findByDateLvr(Date dateLvr,Pageable pageable);
+	public Page<LivraisonEntity> findByLivreur(LivreurEntity livreur,Pageable pageable);
 }
+

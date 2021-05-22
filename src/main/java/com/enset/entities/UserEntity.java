@@ -1,6 +1,7 @@
 package com.enset.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +23,8 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,7 +35,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@Entity(name = "users") @ToString
+@Entity(name = "users") 
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity implements Serializable{
@@ -92,13 +96,14 @@ public class UserEntity implements Serializable{
 	@Column(nullable = false)
 	private Boolean emailVerificationStatus=false;
 	
-	@OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<AddressEntity> addresses;
+	@OneToMany(mappedBy = "user")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<AddressEntity> addresses = new ArrayList<AddressEntity>();
 	
-//	@ManyToOne
-//	@JoinColumn(name = "roles_id", nullable = true)
-//	private RoleEntity role;
-	
+	@OneToMany(mappedBy = "user")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<CommandeEntity> commandeList = new ArrayList<CommandeEntity>();
+
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "USER_ROLES",
             joinColumns = {
@@ -108,7 +113,8 @@ public class UserEntity implements Serializable{
             @JoinColumn(name = "ROLE_ID") })
     private Set<RoleEntity> roles = new HashSet<>();
 	
-	
+	@OneToMany(mappedBy = "user")
+	private List<RatingReviewEntity> ratingReview = new ArrayList<RatingReviewEntity>();
 	
 	
 	@PrePersist

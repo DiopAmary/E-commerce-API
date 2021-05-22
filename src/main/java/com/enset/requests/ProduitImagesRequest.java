@@ -1,5 +1,6 @@
 package com.enset.requests;
 
+import com.enset.dto.ProduitDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProduitImagesRequest {
-    private String image;
+    private String codeProduit;
 }

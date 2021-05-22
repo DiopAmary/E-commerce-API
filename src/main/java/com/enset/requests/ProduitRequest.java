@@ -5,7 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.validation.constraints.NotNull;
+
+import com.enset.dto.RatingReviewDto;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,7 +35,6 @@ public class ProduitRequest {
 
     private int qteStock;
 
-    private CategorieRequest categorie;
-
-    private FournisseurRequest fournisseur;
+    private String codeCategorie;
+    private String codeFournisseur;
 }

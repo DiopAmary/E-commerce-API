@@ -25,17 +25,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		System.out.println("http => " + http.headers());
-		
+	protected void configure(HttpSecurity http) throws Exception {		
 		http
 			.cors().and()
 			.csrf().disable()
 			.authorizeRequests().antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL)
 			.permitAll()
 			.and()
-			.authorizeRequests().antMatchers("/user**/**","/address**/**")
-			.hasAnyAuthority("ROLE_ADMIN")
+			.authorizeRequests().antMatchers("/user**/**","/address**/**","/categorie**/**","/produit**/**","/fournisseur**/**","/commande**/**","/lignes**/**","/livraison**/**","/livreur**/**")
+			.permitAll()
+			//.hasAnyAuthority("ROLE_ADMIN")
 			.anyRequest().authenticated()
 			.and()
 			.addFilter(getAuthenticationFilter())

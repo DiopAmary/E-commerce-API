@@ -40,8 +40,9 @@ import com.enset.services.UserService;
 public class UserController {
 
 	@Autowired
-	UserService userService;
-
+	private UserService userService;
+	
+	
 	@GetMapping(
 			path = "/{id}", 
 			produces = { 
@@ -81,7 +82,7 @@ public class UserController {
 				)
 	@ResponseBody
 	public ResponseEntity<UserResponse> createUser(
-			@Valid UserRequest userRequest,
+			UserRequest userRequest,
 			@RequestPart(name = "photo", required = false) MultipartFile photo,
 			@RequestPart(name = "addresse", required = false) List<AddressRequest> addresses,
 			@RequestPart(name = "rolesUser", required = false) Set<RoleRequest> roles

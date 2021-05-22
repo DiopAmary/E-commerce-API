@@ -2,20 +2,27 @@ package com.enset.repositories;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.enset.entities.AddressEntity;
-import com.enset.entities.Livreur;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-public interface LivreurRepository extends JpaRepository<Livreur, Long>{
+import com.enset.entities.AddressEntity;
+import com.enset.entities.LivreurEntity;
+import com.enset.entities.UserEntity;
+
+@Repository
+public interface LivreurRepository extends JpaRepository<LivreurEntity, Long>{
 	
-	public Page<Livreur> findAll(Pageable pageable);
+	@Query(value = "select * from livreur",nativeQuery=true)
+	public Page<LivreurEntity> findAll(Pageable pageable);
 	
-	public Page<Livreur> findByNom(String nom, Pageable pageable);
+	public Page<LivreurEntity> findByNom(String nom, Pageable pageable);
 	
-	public Page<Livreur> findByPrenom(String prenom, Pageable pageable);
+	public Page<LivreurEntity> findByPrenom(String prenom, Pageable pageable);
 	
-	public Livreur findByEmail(String email);
+	public LivreurEntity findByEmail(String email);
 	
-	public Livreur findByCodeLivreur(String codeLivreur);
+	public LivreurEntity findByCodeLivreur(String codeLivreur);
 	
-	public Livreur findByAddress(AddressEntity address);
+	//public LivreurEntity findByAddress(AddressEntity address);
 }
+
